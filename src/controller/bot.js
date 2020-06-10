@@ -6,6 +6,7 @@ const bot = new Telegraf("1169686321:AAHHUa7wRWB5YYX9zHVeq7Ok3MARk4PaxJM");
 //REGEX CODE
 let emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi;
 let validar = /validar/gi;
+let desbloquear = /desbloquear/gi;
 let activar = /\b([A-F0-9]{13})\b/g;
 let autorizar = /\b([0-9]{7})\b/g;
 
@@ -83,9 +84,9 @@ bot.hears(activar, (ctx) => {
     ctx
   );
   ctx.replyWithMarkdown(
-    `Hola ***${user_name}***, parece que enviaste un codigo!
+    `Hola ***${user_name}***, parece que enviaste un codigo para ***activacion***!
 
-El codigo: ***${id_task}*** fue enviado a Soporte Avanzado para ser activado. 😉👍`
+El codigo: ***${id_task}*** fue enviado a Soporte Avanzado para ser*** activado***. 😉`
   );
 });
 
@@ -108,9 +109,9 @@ bot.hears(autorizar, (ctx) => {
     ctx
   );
   ctx.replyWithMarkdown(
-    `Hola ***${user_name}***, parece que enviaste un codigo!
+    `Hola ***${user_name}***, parece que enviaste un codigo para ***autorizar***!
 
-Fue solicitada una autorizacion a Soporte Avanzado para el codigo: ***${id_task}***. 😉👍`
+Fue solicitada una ***autorizacion*** a Soporte Avanzado para el codigo: ***${id_task}***. 😉`
   );
 });
 // VALIDAR AND DESBLOQUEAR - EMAIL
@@ -119,9 +120,10 @@ bot.hears(emailRegex, (ctx) => {
   let user_name = ctx.from.first_name;
   let id_user = ctx.from.id;
   let id_task = ctx.match[0];
-  let match = message.match(validar);
+  let matchValidar = message.match(validar);
+  let matchDesbloquear = message.match(desbloquear);
 
-  if (match == "validar") {
+  if (matchValidar == "validar") {
     create(
       {
         macaddress: "01:02:03:04:05:06",
@@ -136,9 +138,9 @@ bot.hears(emailRegex, (ctx) => {
     ctx.replyWithMarkdown(
       `Hola ***${user_name}***, parece que enviaste un ***correo*** para ***validar***!
     
-    El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser validado. 😉👍`
+    El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
     );
-  } else {
+  } else if (matchDesbloquear == "desbloquear") {
     create(
       {
         macaddress: "01:02:03:04:05:06",
@@ -153,7 +155,16 @@ bot.hears(emailRegex, (ctx) => {
     ctx.replyWithMarkdown(
       `Hola ***${user_name}***, parece que enviaste un ***correo*** para ***desbloquear***!
     
-El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser desbloqueado. 😉👍`
+El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***desbloqueado***. 😉`
+    );
+  } else {
+    ctx.replyWithMarkdown(
+      `Ops!!😱😱 ***${user_name}*** no entendi lo que deseas hacer con el ***correo ${id_task}***.
+    
+                     ⚠️ ATENCION ⚠️
+
+Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
+***correo ${id_task}***. En el caso que desees hacer algo distinto puedes etiquetar a un funcionario del ***Soporte Avanzado*** o escribir a un del los administradores del grupo. 😌`
     );
   }
 });

@@ -1,25 +1,8 @@
 const TaskModel = require("../model/TaskModel");
 
 const TaskValidation = async (req, res, next) => {
-  const {
-    macaddress,
-    type,
-    user_name,
-    id_user,
-    id_task,
-    message,
-    modified,
-  } = req.body;
+  const { macaddress, type, user_name, id_user, id_task, message } = req.body;
 
-  if (req.params.id) {
-    if (!modified) {
-      return res
-        .status(400)
-        .json({ error: "fecha de modificacion es obligatorio" });
-    } else {
-      return next();
-    }
-  }
   if (!macaddress)
     return res.status(400).json({ error: "macaddress es obligatorio" });
   else if (!type) return res.status(400).json({ error: "tipo es obligatorio" });

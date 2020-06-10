@@ -15,6 +15,7 @@ const TaskSchema = new Schema({
   created: { type: Date, default: Date.now() },
   modified: { type: Date },
   accessed: { type: Date },
+  deleted: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model("Task", TaskSchema);
