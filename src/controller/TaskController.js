@@ -17,8 +17,8 @@ class TaskController {
   async update(req, res) {
     console.log("update");
     const { macaddress, type, user_name, id_user, id_task, message } = req.body;
-    await TaskModel.findByIdAndUpdate(
-      { _id: req.params.id },
+    await TaskModel.findOneAndUpdate(
+      { _id: req.params.id, done: false, deleted: false },
       {
         macaddress,
         type,
@@ -27,6 +27,7 @@ class TaskController {
         id_task,
         message,
         modified: new Date(),
+        accessed: new Date(),
       },
       {
         new: true,
@@ -34,7 +35,9 @@ class TaskController {
     )
       .then((response) => {
         if (response) return res.status(200).json(response);
-        return res.status(404).json({ error: "id de la tarea no existe" });
+        return res
+          .status(404)
+          .json({ error: "tarea hecha, eliminada o no existe" });
       })
       .catch((error) => {
         return res.status(500).json(error);
@@ -74,7 +77,7 @@ class TaskController {
   async deleted(req, res) {
     console.log("delete");
     const { macaddress, type, user_name, id_user, id_task, message } = req.body;
-    await TaskModel.findOneAndUpdate(
+    await TaskModel.findByIdAndUpdate(
       { _id: req.params.id },
       {
         macaddress,
@@ -85,6 +88,7 @@ class TaskController {
         message,
         deleted: true,
         modified: new Date(),
+        accessed: new Date(),
       },
       {
         new: true,
@@ -95,7 +99,7 @@ class TaskController {
           return res
             .status(200)
             .json({ deleted: "tarea eliminada con exito." });
-        else return res.status(404).json({ error: "tarea no encontrada" });
+        else return res.status(404).json({ error: "Id de tarea no existe" });
       })
       .catch((error) => {
         return res.status(500).json(error);
@@ -106,11 +110,12 @@ class TaskController {
     console.log("done");
     await TaskModel.findOneAndUpdate(
       { _id: req.params.id, deleted: false },
-      { done: req.params.done },
+      { done: req.params.done, accessed: new Date() },
       { new: true }
     )
       .then((response) => {
-        return res.status(200).json(response);
+        if (response) return res.status(200).json(response);
+        return res.status(404).json({ error: "id de la tarea no existe" });
       })
       .catch((error) => {
         return res.status(500).json(error);
