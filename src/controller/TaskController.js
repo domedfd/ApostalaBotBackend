@@ -51,6 +51,7 @@ class TaskController {
         return res.status(200).json(response);
       })
       .catch((error) => {
+        console.log(error);
         return res.status(500).json(error);
       });
   }
@@ -124,6 +125,7 @@ class TaskController {
         return res.status(500).json(error);
       });
   }
+  //BUSCAR TAREAS HECHAS
   async dones(req, res) {
     await TaskModel.find({ done: true, deleted: false }).then((response) => {
       return res
@@ -134,11 +136,12 @@ class TaskController {
         });
     });
   }
+  //BUSCAR DESBLOQUEAR
   async unlock(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: "Desbloquear",
+      type: 4,
     }).then((response) => {
       return res
         .status(200)
@@ -148,11 +151,12 @@ class TaskController {
         });
     });
   }
+  //BUSCAR VALIDAR
   async validate(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: "Validar",
+      type: 3,
     }).then((response) => {
       return res
         .status(200)
@@ -162,11 +166,12 @@ class TaskController {
         });
     });
   }
+  //BUSCAR ACTIVAR
   async activate(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: "Activar",
+      type: 1,
     }).then((response) => {
       return res
         .status(200)
@@ -176,11 +181,12 @@ class TaskController {
         });
     });
   }
+  //BUSCAR AUTORIZAR
   async authorize(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: "Autorizar",
+      type: 2,
     }).then((response) => {
       return res
         .status(200)

@@ -75,7 +75,7 @@ bot.hears(activar, (ctx) => {
   create(
     {
       macaddress: "01:02:03:04:05:06",
-      type: "Activar",
+      type: 1,
       user_name,
       id_user,
       id_task,
@@ -100,7 +100,7 @@ bot.hears(autorizar, (ctx) => {
   create(
     {
       macaddress: "01:02:03:04:05:06",
-      type: "Autorizar",
+      type: 2,
       user_name,
       id_user,
       id_task,
@@ -127,7 +127,7 @@ bot.hears(emailRegex, (ctx) => {
     create(
       {
         macaddress: "01:02:03:04:05:06",
-        type: "Validar",
+        type: 3,
         user_name,
         id_user,
         id_task,
@@ -144,7 +144,7 @@ bot.hears(emailRegex, (ctx) => {
     create(
       {
         macaddress: "01:02:03:04:05:06",
-        type: "Desbloquear",
+        type: 4,
         user_name,
         id_user,
         id_task,
