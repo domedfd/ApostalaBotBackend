@@ -74,7 +74,7 @@ class TaskController {
       });
   }
   //FUNCION DELETAR
-  async deleted(req, res) {
+  async delete(req, res) {
     console.log("delete");
     const { macaddress, type, user_name, id_user, id_task, message } = req.body;
     await TaskModel.findOneAndUpdate(
@@ -123,6 +123,72 @@ class TaskController {
       .catch((error) => {
         return res.status(500).json(error);
       });
+  }
+  async dones(req, res) {
+    await TaskModel.find({ done: true, deleted: false }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
+  }
+  async unlock(req, res) {
+    await TaskModel.find({
+      done: false,
+      deleted: false,
+      type: "Desbloquear",
+    }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
+  }
+  async validate(req, res) {
+    await TaskModel.find({
+      done: false,
+      deleted: false,
+      type: "Validar",
+    }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
+  }
+  async activate(req, res) {
+    await TaskModel.find({
+      done: false,
+      deleted: false,
+      type: "Activar",
+    }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
+  }
+  async authorize(req, res) {
+    await TaskModel.find({
+      done: false,
+      deleted: false,
+      type: "Autorizar",
+    }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
   }
 }
 
