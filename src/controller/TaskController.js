@@ -1,6 +1,7 @@
 const TaskModel = require("../model/TaskModel");
 
 class TaskController {
+  //FUNCION CREAR
   async create(req, res) {
     const task = new TaskModel(req.body);
     await task
@@ -9,7 +10,19 @@ class TaskController {
         return res.status(200).json(response);
       })
       .catch((error) => {
-        res.status(500).json(error);
+        return res.status(500).json(error);
+      });
+  }
+  //FUNCION MODIFICAR
+  async update(req, res) {
+    await TaskModel.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+      new: true,
+    })
+      .then((response) => {
+        return res.status(200).json(response);
+      })
+      .catch((error) => {
+        return res.status(500).json(error);
       });
   }
 }

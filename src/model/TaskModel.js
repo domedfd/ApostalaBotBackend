@@ -8,6 +8,7 @@ const TaskSchema = new Schema({
   id_user: { type: Number, required: true },
   id_task: { type: String, required: true },
   id_task_validator: { type: Boolean, default: true },
+  message: { type: String, required: true },
   description: { type: String },
   done: { type: Boolean, default: false },
   done_when: { type: Date },
