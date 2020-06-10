@@ -6,8 +6,9 @@ const TaskValidation = require("../middlewares/TaskValidation");
 
 router.post("/", TaskValidation, TaskController.create);
 router.put("/:id", TaskValidation, TaskController.update);
-router.put("/:id", TaskController.deleted);
 router.get("/:id", TaskController.show);
+router.delete("/:id", TaskController.deleted);
+router.put("/:id/:done", TaskController.done);
 
 router.get("/filter/all", TaskController.all);
 
