@@ -1,12 +1,13 @@
-const bot = require("./bot");
-const express = require("express");
-const server = express();
-
+const bot = require("./controller/bot");
 bot.launch();
 
-server.get("/teste", (req, res) => {
-  res.send("Tudo ok!");
-});
+const express = require("express");
+
+const server = express();
+server.use(express.json());
+
+const TaskRoutes = require("./routes/TaskRoutes");
+server.use("/task", TaskRoutes);
 
 server.listen(3000, () => {
   console.log("API ONLINE");
