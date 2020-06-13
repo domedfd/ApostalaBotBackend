@@ -1,5 +1,7 @@
 const TaskModel = require("../model/TaskModel");
 
+const bot = require("./bot");
+
 class TaskController {
   //FUNCION CREAR
   async create(req, res) {
@@ -15,10 +17,13 @@ class TaskController {
   }
   //FUNCION MODIFICAR
   async update(req, res) {
+    const { macaddress, type, user_name, id_user, id_task, message,done, message_id, chat_id } = req.body;
+
     console.log("update");
-    const { macaddress, type, user_name, id_user, id_task, message } = req.body;
+    done && bot.telegram.sendMessage(chat_id,  `${user_name} tu solicitud con el id: ${id_task} fue concluida con exito! 😃👍👍👍`,  { reply_to_message_id: message_id})
+
     await TaskModel.findOneAndUpdate(
-      { _id: req.params.id, done: false, deleted: false },
+      { _id: req.params.id, deleted: false },
       {
         macaddress,
         type,
@@ -26,6 +31,7 @@ class TaskController {
         id_user,
         id_task,
         message,
+        done,
         modified: new Date(),
         accessed: new Date(),
       },
@@ -45,7 +51,7 @@ class TaskController {
   }
   //FUNCION LISTAR TODAS TAREAS
   async all(req, res) {
-    await TaskModel.find({ deleted: false, done: false })
+    await TaskModel.find({ deleted: false, done: {$ne: true} })
       .sort("created")
       .then((response) => {
         return res.status(200).json(response);
@@ -139,7 +145,7 @@ class TaskController {
   //BUSCAR ACTIVAR
   async activate(req, res) {
     await TaskModel.find({
-      done: false,
+      done: {$ne: true},
       deleted: false,
       type: 1,
     }).then((response) => {
@@ -154,7 +160,7 @@ class TaskController {
   //BUSCAR AUTORIZAR
   async authorize(req, res) {
     await TaskModel.find({
-      done: false,
+      done: {$ne: true},
       deleted: false,
       type: 2,
     }).then((response) => {
@@ -169,7 +175,7 @@ class TaskController {
   //BUSCAR VALIDAR
   async validate(req, res) {
     await TaskModel.find({
-      done: false,
+      done: {$ne: true},
       deleted: false,
       type: 3,
     }).then((response) => {
@@ -184,7 +190,7 @@ class TaskController {
   //BUSCAR DESBLOQUEAR
   async unlock(req, res) {
     await TaskModel.find({
-      done: false,
+      done: {$ne: true},
       deleted: false,
       type: 4,
     }).then((response) => {

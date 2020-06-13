@@ -52,6 +52,10 @@ bot.hears(activar, (ctx) => {
   let user_name = ctx.from.first_name;
   let id_user = ctx.from.id;
   let id_task = ctx.match[0];
+  let message_id = ctx.message.message_id
+  let chat_id = ctx.chat.id
+  console.log(ctx.message.message_id);
+
 
   create(
     {
@@ -61,6 +65,8 @@ bot.hears(activar, (ctx) => {
       id_user,
       id_task,
       message,
+      message_id,
+      chat_id
     },
     ctx
   );
@@ -77,9 +83,8 @@ bot.hears(autorizar, (ctx) => {
   let user_name = ctx.from.first_name;
   let id_user = ctx.from.id;
   let id_task = ctx.match[0];
-  console.log("entrou en autorizar: "+ autorizar);
-  console.log(autorizar.test("1234567"));
-
+  let message_id = ctx.message.message_id
+  let chat_id = ctx.chat.id
   create(
     {
       macaddress: "01:02:03:04:05:06",
@@ -88,6 +93,8 @@ bot.hears(autorizar, (ctx) => {
       id_user,
       id_task,
       message,
+      message_id,
+      chat_id
     },
     ctx
   );
@@ -103,10 +110,14 @@ bot.hears(emailRegex, (ctx) => {
   let user_name = ctx.from.first_name;
   let id_user = ctx.from.id;
   let id_task = ctx.match[0];
+  let message_id = ctx.message.message_id
+  let chat_id = ctx.chat.id
   let matchValidar = message.match(validar);
   let matchDesbloquear = message.match(desbloquear);
+  let isInvlid = true
 
   if (validar.test(matchValidar)) {
+    isInvlid = false
     create(
       {
         macaddress: "01:02:03:04:05:06",
@@ -115,6 +126,8 @@ bot.hears(emailRegex, (ctx) => {
         id_user,
         id_task,
         message,
+        message_id,
+        chat_id
       },
       ctx
     );
@@ -123,8 +136,10 @@ bot.hears(emailRegex, (ctx) => {
     
     El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
     );
-  } 
+  }     
+
   if (desbloquear.test(matchDesbloquear)) {
+    isInvlid = false
     create(
       {
         macaddress: "01:02:03:04:05:06",
@@ -133,6 +148,8 @@ bot.hears(emailRegex, (ctx) => {
         id_user,
         id_task,
         message,
+        message_id,
+        chat_id
       },
       ctx
       );
@@ -141,7 +158,8 @@ bot.hears(emailRegex, (ctx) => {
         
         El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***desbloqueado***. 😉`
         );
-      } else {
+      } 
+       if ( isInvlid ) {
         ctx.replyWithMarkdown(
           `Ops!!😱😱 ***${user_name}*** no entendi lo que deseas hacer con el ***correo ${id_task}***.
 
