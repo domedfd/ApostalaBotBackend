@@ -136,12 +136,27 @@ class TaskController {
         });
     });
   }
-  //BUSCAR DESBLOQUEAR
-  async unlock(req, res) {
+  //BUSCAR ACTIVAR
+  async activate(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: 4,
+      type: 1,
+    }).then((response) => {
+      return res
+        .status(200)
+        .json(response)
+        .catch((error) => {
+          return res.status(500).json(error);
+        });
+    });
+  }
+  //BUSCAR AUTORIZAR
+  async authorize(req, res) {
+    await TaskModel.find({
+      done: false,
+      deleted: false,
+      type: 2,
     }).then((response) => {
       return res
         .status(200)
@@ -166,27 +181,12 @@ class TaskController {
         });
     });
   }
-  //BUSCAR ACTIVAR
-  async activate(req, res) {
+  //BUSCAR DESBLOQUEAR
+  async unlock(req, res) {
     await TaskModel.find({
       done: false,
       deleted: false,
-      type: 1,
-    }).then((response) => {
-      return res
-        .status(200)
-        .json(response)
-        .catch((error) => {
-          return res.status(500).json(error);
-        });
-    });
-  }
-  //BUSCAR AUTORIZAR
-  async authorize(req, res) {
-    await TaskModel.find({
-      done: false,
-      deleted: false,
-      type: 2,
+      type: 4,
     }).then((response) => {
       return res
         .status(200)

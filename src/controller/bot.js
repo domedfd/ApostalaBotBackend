@@ -28,25 +28,6 @@ async function create(value, ctx) {
     });
 }
 
-const inlineButtons = () => {
-  const inlineLinks = [
-    {
-      title: "Google",
-      link: "https://www.google.com/",
-    },
-    {
-      title: "DuckDuckGo.com",
-      link: "https://www.duckduckgo.com/",
-    },
-  ];
-
-  const buttonLinks = inlineLinks.map(({ title, link }) =>
-    Markup.markdown().urlButton(title, link)
-  );
-
-  return Extra.markup((m) => m.inlineKeyboard(buttonLinks, { columns: 1 }));
-};
-
 bot.start((ctx) => {
   ctx.reply("Bienvenido");
 });
@@ -123,7 +104,7 @@ bot.hears(emailRegex, (ctx) => {
   let matchValidar = message.match(validar);
   let matchDesbloquear = message.match(desbloquear);
 
-  if (matchValidar == "validar") {
+  if (matchValidar == validar) {
     create(
       {
         macaddress: "01:02:03:04:05:06",
@@ -140,7 +121,7 @@ bot.hears(emailRegex, (ctx) => {
     
     El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
     );
-  } else if (matchDesbloquear == "desbloquear") {
+  } else if (matchDesbloquear == desbloquear) {
     create(
       {
         macaddress: "01:02:03:04:05:06",
