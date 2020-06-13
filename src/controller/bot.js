@@ -123,7 +123,8 @@ bot.hears(emailRegex, (ctx) => {
     
     El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
     );
-  } else if (desbloquear.test(matchDesbloquear)) {
+  } 
+  if (desbloquear.test(matchDesbloquear)) {
     create(
       {
         macaddress: "01:02:03:04:05:06",
