@@ -45,6 +45,10 @@ bot.command("covid", (ctx) => {
   });
 });
 
+bot.action("p", (ctx) => {
+  console.log("Entrei -----------------------------------------------------");
+});
+
 bot.help((ctx) => {
   console.log(ctx.chat);
   ctx.replyWithMarkdown(
@@ -182,6 +186,13 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
       {
         parse_mode: "Markdown",
         reply_markup: {
+          resize_keyboard: true,
+          one_time_keyboard: true,
+          keyboard: [
+            [{ text: `Desbloquear ${id_task}` }],
+            [`Validar ${id_task}`],
+          ],
+
           inline_keyboard: [
             [
               { text: "Validar", callback_data: "v" },
@@ -192,6 +203,7 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
         },
       }
     );
+    ctx.deleteMessage();
 
     bot.action("v", (ctx) => {
       create(
@@ -210,7 +222,7 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
       ctx.replyWithMarkdown(
         `Hola ***${user_name}***, elegiste la opcion ***validar***!
 
-Tu ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
+El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉`
       );
       ctx.deleteMessage();
     });
@@ -231,7 +243,7 @@ Tu ***${id_task}*** fue enviado a Soporte Avanzado para ser ***validado***. 😉
       ctx.replyWithMarkdown(
         `Hola ***${user_name}***, elegiste la opcion ***desbloquear***!
 
-El ***${id_task}*** fue enviado a Soporte Avanzado para ser ***desbloqueado***. 😉`
+El correo: ***${id_task}*** fue enviado a Soporte Avanzado para ser ***desbloqueado***. 😉`
       );
       ctx.deleteMessage();
       console.log("entrou");
