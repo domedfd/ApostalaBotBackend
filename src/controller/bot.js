@@ -186,12 +186,12 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
       {
         parse_mode: "Markdown",
         reply_markup: {
-          resize_keyboard: true,
-          one_time_keyboard: true,
-          keyboard: [
-            [{ text: `Desbloquear ${id_task}` }],
-            [`Validar ${id_task}`],
-          ],
+          // resize_keyboard: true,
+          // one_time_keyboard: true,
+          // keyboard: [
+          //   [{ text: `Desbloquear ${id_task}` }],
+          //   [`Validar ${id_task}`],
+          // ],
 
           inline_keyboard: [
             [
