@@ -203,7 +203,7 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
         },
       }
     );
-    ctx.deleteMessage();
+    // ctx.deleteMessage();
 
     bot.action("v", (ctx) => {
       create(
