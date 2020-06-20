@@ -185,9 +185,11 @@ Intenta escribirme la palabra ***desbloquear*** o ***validar*** seguida del
 ***correo ${id_task}***. En el caso que desees hacer algo distinto puedes etiquetar a un funcionario del ***Soporte Avanzado*** o escribir a un del los administradores del grupo. 😌`,
       {
         parse_mode: "Markdown",
+        reply_to_message_id: ctx.message.message_id,
         reply_markup: {
           resize_keyboard: false,
           one_time_keyboard: true,
+          selective: true,
           keyboard: [
             [{ text: `Desbloquear ${id_task}` }],
             [`Validar ${id_task}`],
